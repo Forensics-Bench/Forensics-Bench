@@ -16,68 +16,11 @@ RBDash_ROOT = None
 VITA_ROOT = None
 LLAVA_V1_7B_MODEL_PTH = "Please set your local path to LLaVA-7B-v1.1 here, the model weight is obtained by merging LLaVA delta weight based on vicuna-7b-v1.1 in https://github.com/haotian-liu/LLaVA/blob/main/docs/MODEL_ZOO.md with vicuna-7b-v1.1. "
 
-video_models = {
-    "Video-LLaVA-7B": partial(VideoLLaVA, model_path="LanguageBind/Video-LLaVA-7B"),
-    "Video-LLaVA-7B-HF": partial(
-        VideoLLaVA_HF, model_path="LanguageBind/Video-LLaVA-7B-hf"
-    ),
-    "VideoChat2-HD": partial(
-        VideoChat2_HD,
-        model_path="OpenGVLab/VideoChat2_HD_stage4_Mistral_7B",
-        root=VideoChat2_ROOT,
-        config_file="./vlmeval/vlm/video_llm/configs/videochat2_hd.json",
-    ),
-    "Chat-UniVi-7B": partial(Chatunivi, model_path="Chat-UniVi/Chat-UniVi"),
-    "Chat-UniVi-7B-v1.5": partial(
-        Chatunivi, model_path="Chat-UniVi/Chat-UniVi-7B-v1.5"
-    ),
-    "LLaMA-VID-7B": partial(
-        LLaMAVID, model_path="YanweiLi/llama-vid-7b-full-224-video-fps-1"
-    ),
-    "Video-ChatGPT": partial(
-        VideoChatGPT, model_path="MBZUAI/Video-ChatGPT-7B", dir_root=VideoChatGPT_ROOT
-    ),
-    "PLLaVA-7B": partial(PLLaVA, model_path="ermu2001/pllava-7b", dir_root=PLLaVA_ROOT),
-    "PLLaVA-13B": partial(
-        PLLaVA, model_path="ermu2001/pllava-13b", dir_root=PLLaVA_ROOT
-    ),
-    "PLLaVA-34B": partial(
-        PLLaVA, model_path="ermu2001/pllava-34b", dir_root=PLLaVA_ROOT
-    ),
-}
+video_models = {}
 
 ungrouped = {
-    "AKI": partial(AKI, name="AKI", ckpt_pth="Sony/AKI-4B-phi-3.5-mini"),
-    "TransCore_M": partial(TransCoreM, root=TransCore_ROOT),
-    "PandaGPT_13B": partial(PandaGPT, name="PandaGPT_13B", root=PandaGPT_ROOT),
-    "flamingov2": partial(
-        OpenFlamingo,
-        name="v2",
-        mpt_pth="anas-awadalla/mpt-7b",
-        ckpt_pth="openflamingo/OpenFlamingo-9B-vitl-mpt7b",
-    ),
     "VisualGLM_6b": partial(VisualGLM, model_path="THUDM/visualglm-6b"),
     "mPLUG-Owl2": partial(mPLUG_Owl2, model_path="MAGAer13/mplug-owl2-llama2-7b"),
-    "mPLUG-Owl3": partial(mPLUG_Owl3, model_path="mPLUG/mPLUG-Owl3-7B-240728"),
-    "OmniLMM_12B": partial(
-        OmniLMM12B, model_path="openbmb/OmniLMM-12B", root=OmniLMM_ROOT
-    ),
-    "MGM_7B": partial(
-        Mini_Gemini, model_path="YanweiLi/MGM-7B-HD", root=Mini_Gemini_ROOT
-    ),
-    "Bunny-llama3-8B": partial(BunnyLLama3, model_path="BAAI/Bunny-v1_1-Llama-3-8B-V"),
-    "VXVERSE": partial(VXVERSE, model_name="XVERSE-V-13B", root=VXVERSE_ROOT),
-    "360VL-70B": partial(QH_360VL, model_path="qihoo360/360VL-70B"),
-    "Llama-3-MixSenseV1_1": partial(
-        LLama3Mixsense, model_path="Zero-Vision/Llama-3-MixSenseV1_1"
-    ),
-    "Parrot": partial(Parrot, model_path="AIDC-AI/Parrot-7B"),
-    "OmChat": partial(OmChat, model_path="omlab/omchat-v2.0-13B-single-beta_hf"),
-    "RBDash_72b": partial(
-        RBDash, model_path="RBDash-Team/RBDash-v1.5", root=RBDash_ROOT
-    ),
-    "Pixtral-12B": partial(Pixtral, model_path="mistralai/Pixtral-12B-2409"),
-    "Falcon2-VLM-11B": partial(Falcon2VLM, model_path="tiiuae/falcon-11B-vlm"),
 }
 
 o1_key = 'XXX'  # noqa: E501
@@ -199,49 +142,6 @@ api_models = {
     "GeminiFlash1-5-002": partial(
         GPT4V, model="gemini-1.5-flash-002", temperature=0, retry=10
     ),  # Internal Use Only
-    # Qwen-VL
-    "QwenVLPlus": partial(QwenVLAPI, model="qwen-vl-plus", temperature=0, retry=10),
-    "QwenVLMax": partial(QwenVLAPI, model="qwen-vl-max", temperature=0, retry=10),
-    # Reka
-    "RekaEdge": partial(Reka, model="reka-edge-20240208"),
-    "RekaFlash": partial(Reka, model="reka-flash-20240226"),
-    "RekaCore": partial(Reka, model="reka-core-20240415"),
-    # Step1V
-    "Step1V": partial(
-        GPT4V,
-        model="step-1v-32k",
-        api_base="https://api.stepfun.com/v1/chat/completions",
-        temperature=0,
-        retry=10,
-        img_size=-1,
-        img_detail="high",
-    ),
-    "Step1.5V-mini": partial(
-        GPT4V,
-        model="step-1.5v-mini",
-        api_base="https://api.stepfun.com/v1/chat/completions",
-        temperature=0,
-        retry=10,
-        img_size=-1,
-        img_detail="high",
-    ),
-    "Step1o": partial(
-        GPT4V,
-        model="step-1o-vision-32k",
-        api_base="https://api.stepfun.com/v1/chat/completions",
-        temperature=0,
-        retry=10,
-        img_size=-1,
-        img_detail="high",
-    ),
-    # Yi-Vision
-    "Yi-Vision": partial(
-        GPT4V,
-        model="yi-vision",
-        api_base="https://api.lingyiwanwu.com/v1/chat/completions",
-        temperature=0,
-        retry=10,
-    ),
     # Claude
     "Claude3V_Opus": partial(
         Claude3V, model="claude-3-opus-20240229", temperature=0, retry=10, verbose=False
@@ -281,53 +181,6 @@ api_models = {
         retry=10,
         verbose=False,
     ),
-    # GLM4V
-    "GLM4V": partial(GLMVisionAPI, model="glm4v-biz-eval", temperature=0, retry=10),
-    "GLM4V_PLUS": partial(GLMVisionAPI, model="glm-4v-plus", temperature=0, retry=10),
-    "GLM4V_PLUS_20250111": partial(
-        GLMVisionAPI, model="glm-4v-plus-0111", temperature=0, retry=10
-    ),
-    # MiniMax abab
-    "abab6.5s": partial(
-        GPT4V,
-        model="abab6.5s-chat",
-        api_base="https://api.minimax.chat/v1/chat/completions",
-        temperature=0,
-        retry=10,
-    ),
-    "abab7-preview": partial(
-        GPT4V,
-        model="abab7-chat-preview",
-        api_base="https://api.minimax.chat/v1/chat/completions",
-        temperature=0,
-        retry=10,
-    ),
-    # CongRong
-    "CloudWalk": partial(CWWrapper, model="cw-congrong-v1.5", temperature=0, retry=10),
-    # SenseChat-V
-    "SenseChat-Vision": partial(
-        SenseChatVisionAPI, model="SenseChat-Vision", temperature=0, retry=10
-    ),
-    "HunYuan-Vision": partial(
-        HunyuanVision, model="hunyuan-vision", temperature=0, retry=10
-    ),
-    "HunYuan-Standard-Vision": partial(
-        HunyuanVision, model="hunyuan-standard-vision", temperature=0, retry=10
-    ),
-    "BailingMM-Lite-1203": partial(
-        bailingMMAPI, model="BailingMM-Lite-1203", temperature=0, retry=10
-    ),
-    "BailingMM-Pro-0120": partial(
-        bailingMMAPI, model="BailingMM-Pro-0120", temperature=0, retry=10
-    ),
-    # BlueLM-V
-    "BlueLM_V": partial(BlueLM_V_API, model="BlueLM-VL-v3.0", temperature=0, retry=10),
-    # JiuTian-VL
-    "JTVL": partial(JTVLChatAPI, model="jt-vl-chat", temperature=0, retry=10),
-    "Taiyi": partial(TaiyiAPI, model="taiyi", temperature=0, retry=10),
-    # TeleMM
-    "TeleMM": partial(TeleMMAPI, model="TeleAI/TeleMM", temperature=0, retry=10),
-    # lmdeploy api
     "lmdeploy": partial(
         LMDeployAPI,
         api_base="http://0.0.0.0:23333/v1/chat/completions",
@@ -354,80 +207,6 @@ api_models = {
     #     model="Taichu-VL-2B",
     #     url="https://platform.wair.ac.cn/api/v1/infer/10381/v1/chat/completions",
     # ),
-    'Taichu-VLR-3B': partial(
-        TaichuVLRAPI, 
-        model='taichu_vlr_3b', 
-        url="https://platform.wair.ac.cn/maas/v1/chat/completions"
-    ),
-    # doubao_vl
-    "DoubaoVL": partial(
-        DoubaoVL, model="Doubao-1.5-vision-pro", temperature=0, retry=10, verbose=False
-    ),
-    # Shopee MUG-U
-    'MUG-U-7B': partial(
-        MUGUAPI, 
-        model='MUG-U', 
-        temperature=0,  
-        retry=10, 
-        verbose=False, 
-        timeout=300),
-    # grok
-    "grok-vision-beta": partial(
-        GPT4V,
-        model="grok-vision-beta",
-        api_base="https://api.x.ai/v1/chat/completions",
-        temperature=0,
-        retry=10,
-    ),
-    "grok-2-vision-1212": partial(
-        GPT4V,
-        model="grok-2-vision",
-        api_base="https://api.x.ai/v1/chat/completions",
-        temperature=0,
-        retry=10,
-    ),
-    # kimi
-    "moonshot-v1-8k": partial(
-        GPT4V,
-        model="moonshot-v1-8k-vision-preview",
-        api_base="https://api.moonshot.cn/v1/chat/completions",
-        temperature=0,
-        retry=10,
-    ),
-    "moonshot-v1-32k": partial(
-        GPT4V,
-        model="moonshot-v1-32k-vision-preview",
-        api_base="https://api.moonshot.cn/v1/chat/completions",
-        temperature=0,
-        retry=10,
-    ),
-    "moonshot-v1-128k": partial(
-        GPT4V,
-        model="moonshot-v1-128k-vision-preview",
-        api_base="https://api.moonshot.cn/v1/chat/completions",
-        temperature=0,
-        retry=10,
-    ),
-}
-
-emu_series = {
-    "emu2_chat": partial(Emu, model_path="BAAI/Emu2-Chat"),
-    "emu3_chat": partial(Emu3_chat, model_path="BAAI/Emu3-Chat"),
-    "emu3_gen": partial(Emu3_gen, model_path="BAAI/Emu3-Gen"),
-}
-mmalaya_series = {
-    "MMAlaya": partial(MMAlaya, model_path="DataCanvas/MMAlaya"),
-    "MMAlaya2": partial(MMAlaya2, model_path="DataCanvas/MMAlaya2"),
-}
-
-minicpm_series = {
-    "MiniCPM-V": partial(MiniCPM_V, model_path="openbmb/MiniCPM-V"),
-    "MiniCPM-V-2": partial(MiniCPM_V, model_path="openbmb/MiniCPM-V-2"),
-    "MiniCPM-Llama3-V-2_5": partial(
-        MiniCPM_Llama3_V, model_path="openbmb/MiniCPM-Llama3-V-2_5"
-    ),
-    "MiniCPM-V-2_6": partial(MiniCPM_V_2_6, model_path="openbmb/MiniCPM-V-2_6"),
-    "MiniCPM-o-2_6": partial(MiniCPM_o_2_6, model_path="openbmb/MiniCPM-o-2_6"),
 }
 
 xtuner_series = {
@@ -480,7 +259,6 @@ qwen_series = {
     "qwen_chat": partial(QwenVLChat, model_path="Qwen/Qwen-VL-Chat"),
     "monkey": partial(Monkey, model_path="echo840/Monkey"),
     "monkey-chat": partial(MonkeyChat, model_path="echo840/Monkey-Chat"),
-    "minimonkey": partial(MiniMonkey, model_path="mx262/MiniMonkey"),
 }
 
 llava_series = {
@@ -555,23 +333,6 @@ llava_series = {
     ),
 }
 
-vita_series = {
-    "vita": partial(VITA, model_path="VITA-MLLM/VITA", root=VITA_ROOT),
-    "vita_qwen2": partial(VITAQwen2, model_path="VITA-MLLM/VITA-1.5", root=VITA_ROOT),
-}
-
-long_vita_series = {
-    "Long-VITA-16K": partial(
-        LongVITA, model_path="VITA-MLLM/Long-VITA-16K_HF", max_num_frame=128
-    ),
-    "Long-VITA-128K": partial(
-        LongVITA, model_path="VITA-MLLM/Long-VITA-128K_HF", max_num_frame=256
-    ),
-    "Long-VITA-1M": partial(
-        LongVITA, model_path="VITA-MLLM/Long-VITA-1M_HF", max_num_frame=256
-    ),
-}
-
 internvl_series = {
     "InternVL-Chat-V1-1": partial(
         InternVLChat, model_path="OpenGVLab/InternVL-Chat-V1-1", version="V1.1"
@@ -599,7 +360,7 @@ internvl_series = {
         InternVLChat, model_path="OpenGVLab/InternVL2-1B", version="V2.0"
     ),
     "InternVL2-2B": partial(
-        InternVLChat, model_path="OpenGVLab/InternVL2-2B", version="V2.0"
+        InternVLChat, model_path="/datadisk3/lvchenghui/models/FD-Bench/OpenGVLab/InternVL2-2B", version="V2.0"
     ),
     "InternVL2-4B": partial(
         InternVLChat, model_path="OpenGVLab/InternVL2-4B", version="V2.0"
@@ -693,9 +454,6 @@ internvl_series = {
     ),
 }
 
-sail_series = {
-    "SAIL-VL-2B": partial(SailVL, model_path="BytedanceDouyinContent/SAIL-VL-2B")
-}
 
 yivl_series = {
     "Yi_VL_6B": partial(Yi_VL, model_path="01-ai/Yi-VL-6B", root=Yi_ROOT),
@@ -709,18 +467,6 @@ xcomposer_series = {
     "XComposer2_1.8b": partial(
         XComposer2, model_path="internlm/internlm-xcomposer2-vl-1_8b"
     ),
-    "XComposer2_4KHD": partial(
-        XComposer2_4KHD, model_path="internlm/internlm-xcomposer2-4khd-7b"
-    ),
-    "XComposer2d5": partial(
-        XComposer2d5, model_path="internlm/internlm-xcomposer2d5-7b"
-    ),
-}
-
-minigpt4_series = {
-    "MiniGPT-4-v2": partial(MiniGPT4, mode="v2", root=MiniGPT4_ROOT),
-    "MiniGPT-4-v1-7B": partial(MiniGPT4, mode="v1_7b", root=MiniGPT4_ROOT),
-    "MiniGPT-4-v1-13B": partial(MiniGPT4, mode="v1_13b", root=MiniGPT4_ROOT),
 }
 
 idefics_series = {
@@ -735,21 +481,6 @@ idefics_series = {
     "Idefics3-8B-Llama3": partial(
         IDEFICS2, model_path="HuggingFaceM4/Idefics3-8B-Llama3"
     ),
-}
-
-smolvlm_series = {
-    "SmolVLM-256M": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-256M-Instruct"),
-    "SmolVLM-500M": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-500M-Instruct"),
-    "SmolVLM": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-Instruct"),
-    "SmolVLM-DPO": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-Instruct-DPO"),
-    "SmolVLM-Synthetic": partial(SmolVLM, model_path="HuggingFaceTB/SmolVLM-Synthetic"),
-    "SmolVLM2-256M": partial(
-        SmolVLM2, model_path="HuggingFaceTB/SmolVLM2-256M-Video-Instruct"
-    ),
-    "SmolVLM2-500M": partial(
-        SmolVLM2, model_path="HuggingFaceTB/SmolVLM2-500M-Video-Instruct"
-    ),
-    "SmolVLM2": partial(SmolVLM2, model_path="HuggingFaceTB/SmolVLM2-2.2B-Instruct"),
 }
 
 instructblip_series = {
@@ -774,10 +505,6 @@ deepseekvl2_series = {
     "deepseek_vl2": partial(DeepSeekVL2, model_path="deepseek-ai/deepseek-vl2"),
 }
 
-janus_series = {
-    "Janus-1.3B": partial(Janus, model_path="deepseek-ai/Janus-1.3B"),
-    "Janus-Pro-7B": partial(Janus, model_path="deepseek-ai/Janus-Pro-7B"),
-}
 
 cogvlm_series = {
     "cogvlm-grounding-generalist": partial(
@@ -794,92 +521,7 @@ cogvlm_series = {
     "glm-4v-9b": partial(GLM4v, model_path="THUDM/glm-4v-9b"),
 }
 
-wemm_series = {
-    "WeMM": partial(WeMM, model_path="feipengma/WeMM"),
-}
-
-cambrian_series = {
-    "cambrian_8b": partial(Cambrian, model_path="nyu-visionx/cambrian-8b"),
-    "cambrian_13b": partial(Cambrian, model_path="nyu-visionx/cambrian-13b"),
-    "cambrian_34b": partial(Cambrian, model_path="nyu-visionx/cambrian-34b"),
-}
-
-chameleon_series = {
-    "chameleon_7b": partial(Chameleon, model_path="facebook/chameleon-7b"),
-    "chameleon_30b": partial(Chameleon, model_path="facebook/chameleon-30b"),
-}
-
-vila_series = {
-    "VILA1.5-3b": partial(VILA, model_path="Efficient-Large-Model/VILA1.5-3b"),
-    "Llama-3-VILA1.5-8b": partial(
-        VILA, model_path="Efficient-Large-Model/Llama-3-VILA1.5-8b"
-    ),
-    "VILA1.5-13b": partial(VILA, model_path="Efficient-Large-Model/VILA1.5-13b"),
-    "VILA1.5-40b": partial(VILA, model_path="Efficient-Large-Model/VILA1.5-40b"),
-}
-
-ovis_series = {
-    "Ovis1.5-Llama3-8B": partial(Ovis, model_path="AIDC-AI/Ovis1.5-Llama3-8B"),
-    "Ovis1.5-Gemma2-9B": partial(Ovis, model_path="AIDC-AI/Ovis1.5-Gemma2-9B"),
-    "Ovis1.6-Gemma2-9B": partial(Ovis1_6, model_path="AIDC-AI/Ovis1.6-Gemma2-9B"),
-    "Ovis1.6-Llama3.2-3B": partial(Ovis1_6, model_path="AIDC-AI/Ovis1.6-Llama3.2-3B"),
-    "Ovis1.6-Gemma2-27B": partial(
-        Ovis1_6_Plus, model_path="AIDC-AI/Ovis1.6-Gemma2-27B"
-    ),
-    "Ovis2-1B": partial(Ovis2, model_path="AIDC-AI/Ovis2-1B"),
-    "Ovis2-2B": partial(Ovis2, model_path="AIDC-AI/Ovis2-2B"),
-    "Ovis2-4B": partial(Ovis2, model_path="AIDC-AI/Ovis2-4B"),
-    "Ovis2-8B": partial(Ovis2, model_path="AIDC-AI/Ovis2-8B"),
-    "Ovis2-16B": partial(Ovis2, model_path="AIDC-AI/Ovis2-16B"),
-    "Ovis2-34B": partial(Ovis2, model_path="AIDC-AI/Ovis2-34B"),
-}
-
-mantis_series = {
-    "Mantis-8B-siglip-llama3": partial(
-        Mantis, model_path="TIGER-Lab/Mantis-8B-siglip-llama3"
-    ),
-    "Mantis-8B-clip-llama3": partial(
-        Mantis, model_path="TIGER-Lab/Mantis-8B-clip-llama3"
-    ),
-    "Mantis-8B-Idefics2": partial(Mantis, model_path="TIGER-Lab/Mantis-8B-Idefics2"),
-    "Mantis-8B-Fuyu": partial(Mantis, model_path="TIGER-Lab/Mantis-8B-Fuyu"),
-}
-
-phi3_series = {
-    "Phi-3-Vision": partial(
-        Phi3Vision, model_path="microsoft/Phi-3-vision-128k-instruct"
-    ),
-    "Phi-3.5-Vision": partial(
-        Phi3_5Vision, model_path="microsoft/Phi-3.5-vision-instruct"
-    ),
-}
-
-phi4_series = {
-    'Phi-4-Vision': partial(Phi4Multimodal, model_path='microsoft/Phi-4-multimodal-instruct'),
-}
-
-xgen_mm_series = {
-    "xgen-mm-phi3-interleave-r-v1.5": partial(
-        XGenMM, model_path="Salesforce/xgen-mm-phi3-mini-instruct-interleave-r-v1.5"
-    ),
-    "xgen-mm-phi3-dpo-r-v1.5": partial(
-        XGenMM, model_path="Salesforce/xgen-mm-phi3-mini-instruct-dpo-r-v1.5"
-    ),
-}
-
 qwen2vl_series = {
-    "Qwen-VL-Max-0809": partial(
-        Qwen2VLAPI,
-        model="qwen-vl-max-0809",
-        min_pixels=1280 * 28 * 28,
-        max_pixels=16384 * 28 * 28,
-    ),
-    "Qwen-VL-Plus-0809": partial(
-        Qwen2VLAPI,
-        model="qwen-vl-plus-0809",
-        min_pixels=1280 * 28 * 28,
-        max_pixels=16384 * 28 * 28,
-    ),
     "QVQ-72B-Preview": partial(
         Qwen2VLChat,
         model_path="Qwen/QVQ-72B-Preview",
@@ -991,33 +633,6 @@ qwen2vl_series = {
         max_pixels=16384 * 28 * 28,
         use_custom_prompt=False,
     ),
-    'VLM-R1': partial(
-        VLMR1Chat, 
-        model_path='omlab/VLM-R1-Qwen2.5VL-3B-Math-0305', 
-        min_pixels=1280*28*28, 
-        max_pixels=16384*28*28, 
-        use_custom_prompt=False),
-}
-
-slime_series = {
-    "Slime-7B": partial(SliME, model_path="yifanzhang114/SliME-vicuna-7B"),
-    "Slime-8B": partial(SliME, model_path="yifanzhang114/SliME-Llama3-8B"),
-    "Slime-13B": partial(SliME, model_path="yifanzhang114/SliME-vicuna-13B"),
-}
-
-eagle_series = {
-    "Eagle-X4-8B-Plus": partial(Eagle, model_path="NVEagle/Eagle-X4-8B-Plus"),
-    "Eagle-X4-13B-Plus": partial(Eagle, model_path="NVEagle/Eagle-X4-13B-Plus"),
-    "Eagle-X5-7B": partial(Eagle, model_path="NVEagle/Eagle-X5-7B"),
-    "Eagle-X5-13B": partial(Eagle, model_path="NVEagle/Eagle-X5-13B"),
-    "Eagle-X5-13B-Chat": partial(Eagle, model_path="NVEagle/Eagle-X5-13B-Chat"),
-    "Eagle-X5-34B-Chat": partial(Eagle, model_path="NVEagle/Eagle-X5-34B-Chat"),
-    "Eagle-X5-34B-Plus": partial(Eagle, model_path="NVEagle/Eagle-X5-34B-Plus"),
-}
-
-moondream_series = {
-    "Moondream1": partial(Moondream1, model_path="vikhyatk/moondream1"),
-    "Moondream2": partial(Moondream2, model_path="vikhyatk/moondream2"),
 }
 
 llama_series = {
@@ -1028,72 +643,6 @@ llama_series = {
     "Llama-3.2-90B-Vision-Instruct": partial(
         llama_vision, model_path="meta-llama/Llama-3.2-90B-Vision-Instruct"
     ),
-}
-
-molmo_series = {
-    "molmoE-1B-0924": partial(molmo, model_path="allenai/MolmoE-1B-0924"),
-    "molmo-7B-D-0924": partial(molmo, model_path="allenai/Molmo-7B-D-0924"),
-    "molmo-7B-O-0924": partial(molmo, model_path="allenai/Molmo-7B-O-0924"),
-    "molmo-72B-0924": partial(molmo, model_path="allenai/Molmo-72B-0924"),
-}
-
-kosmos_series = {
-    "Kosmos2": partial(Kosmos2, model_path="microsoft/kosmos-2-patch14-224")
-}
-
-points_series = {
-    "POINTS-Yi-1.5-9B-Chat": partial(
-        POINTS, model_path="WePOINTS/POINTS-Yi-1-5-9B-Chat"
-    ),
-    "POINTS-Qwen-2.5-7B-Chat": partial(
-        POINTS, model_path="WePOINTS/POINTS-Qwen-2-5-7B-Chat"
-    ),
-    "POINTSV15-Qwen-2.5-7B-Chat": partial(
-        POINTSV15, model_path="WePOINTS/POINTS-1-5-Qwen-2-5-7B-Chat"
-    ),
-}
-
-nvlm_series = {
-    "NVLM": partial(NVLM, model_path="nvidia/NVLM-D-72B"),
-}
-
-vintern_series = {
-    "Vintern-3B-beta": partial(VinternChat, model_path="5CD-AI/Vintern-3B-beta"),
-    "Vintern-1B-v2": partial(VinternChat, model_path="5CD-AI/Vintern-1B-v2"),
-}
-
-aria_series = {"Aria": partial(Aria, model_path="rhymes-ai/Aria")}
-
-h2ovl_series = {
-    "h2ovl-mississippi-2b": partial(H2OVLChat, model_path="h2oai/h2ovl-mississippi-2b"),
-    "h2ovl-mississippi-1b": partial(
-        H2OVLChat, model_path="h2oai/h2ovl-mississippi-800m"
-    ),
-}
-
-valley_series = {
-    "valley_eagle": partial(
-        ValleyEagleChat, model_path="bytedance-research/Valley-Eagle-7B"
-    ),
-}
-
-ola_series = {
-    "ola": partial(Ola, model_path="THUdyh/Ola-7b"),
-}
-
-ross_series = {
-    "ross-qwen2-7b": partial(Ross, model_path="HaochenWang/ross-qwen2-7b"),
-}
-
-ursa_series = {"URSA-8B": partial(UrsaChat, model_path="URSA-MATH/URSA-8B")}
-
-gemma_series = {
-    "paligemma-3b-mix-448": partial(
-        PaliGemma, model_path="google/paligemma-3b-mix-448"
-    ),
-    'Gemma3-4B': partial(Gemma3, model_path='google/gemma-3-4b-it'),
-    'Gemma3-12B': partial(Gemma3, model_path='google/gemma-3-12b-it'),
-    'Gemma3-27B': partial(Gemma3, model_path='google/gemma-3-27b-it')
 }
 
 supported_VLM = {}
@@ -1108,47 +657,14 @@ model_groups = [
     internvl_series,
     yivl_series,
     xcomposer_series,
-    minigpt4_series,
     idefics_series,
     instructblip_series,
     deepseekvl_series,
     deepseekvl2_series,
-    janus_series,
-    minicpm_series,
     cogvlm_series,
-    wemm_series,
-    cambrian_series,
-    chameleon_series,
     video_models,
-    ovis_series,
-    vila_series,
-    mantis_series,
-    mmalaya_series,
-    phi3_series,
-    phi4_series, 
-    xgen_mm_series,
     qwen2vl_series,
-    slime_series,
-    eagle_series,
-    moondream_series,
     llama_series,
-    molmo_series,
-    kosmos_series,
-    points_series,
-    nvlm_series,
-    vintern_series,
-    h2ovl_series,
-    aria_series,
-    smolvlm_series,
-    sail_series,
-    valley_series,
-    vita_series,
-    ross_series,
-    emu_series,
-    ola_series,
-    ursa_series,
-    gemma_series,
-    long_vita_series,
 ]
 
 for grp in model_groups:

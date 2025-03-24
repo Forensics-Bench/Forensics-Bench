@@ -4,11 +4,8 @@ import torch
 import torch.distributed as dist
 
 from vlmeval.config import supported_VLM
-from vlmeval.dataset.video_dataset_config import supported_video_datasets
 from vlmeval.dataset import build_dataset
 from vlmeval.inference import infer_data_job
-from vlmeval.inference_video import infer_data_job_video
-from vlmeval.inference_mt import infer_data_job_mt
 from vlmeval.smp import *
 from vlmeval.utils.result_transfer import MMMU_result_transfer, MMTBench_result_transfer
 
@@ -33,8 +30,8 @@ def build_dataset_from_config(cfg, dataset_name):
     import vlmeval.dataset
     import inspect
     config = cp.deepcopy(cfg[dataset_name])
-    if config == {}:
-        return supported_video_datasets[dataset_name]()
+    # if config == {}:
+    #     return supported_video_datasets[dataset_name]()
     assert 'class' in config
     cls_name = config.pop('class')
     if hasattr(vlmeval.dataset, cls_name):
@@ -294,33 +291,14 @@ def main():
                     model = model_name  # which is only a name
 
                 # Perform the Inference
-                if dataset.MODALITY == 'VIDEO':
-                    model = infer_data_job_video(
-                        model,
-                        work_dir=pred_root,
-                        model_name=model_name,
-                        dataset=dataset,
-                        result_file_name=result_file_base,
-                        verbose=args.verbose,
-                        api_nproc=args.api_nproc)
-                elif dataset.TYPE == 'MT':
-                    model = infer_data_job_mt(
-                        model,
-                        work_dir=pred_root,
-                        model_name=model_name,
-                        dataset=dataset,
-                        verbose=args.verbose,
-                        api_nproc=args.api_nproc,
-                        ignore_failed=args.ignore)
-                else:
-                    model = infer_data_job(
-                        model,
-                        work_dir=pred_root,
-                        model_name=model_name,
-                        dataset=dataset,
-                        verbose=args.verbose,
-                        api_nproc=args.api_nproc,
-                        ignore_failed=args.ignore)
+                model = infer_data_job(
+                    model,
+                    work_dir=pred_root,
+                    model_name=model_name,
+                    dataset=dataset,
+                    verbose=args.verbose,
+                    api_nproc=args.api_nproc,
+                    ignore_failed=args.ignore)
 
                 # Set the judge kwargs first before evaluation or dumping
 

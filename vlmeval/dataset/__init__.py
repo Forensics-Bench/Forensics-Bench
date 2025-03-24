@@ -1,47 +1,11 @@
 import warnings
 
 from .image_base import img_root_map, ImageBaseDataset
-from .image_caption import ImageCaptionDataset
-from .image_yorn import ImageYORNDataset
 from .image_mcq import (
     ImageMCQDataset, MMMUDataset, CustomMCQDataset, MUIRDataset, GMAIMMBenchDataset, MMERealWorld, HRBenchDataset,
     NaturalBenchDataset, WeMath, MMMUProDataset
 )
-from .image_mt import MMDUDataset
-from .image_vqa import (
-    ImageVQADataset, MathVision, OCRBench, MathVista, LLaVABench, MMVet, MTVQADataset, TableVQABench,
-    CustomVQADataset, CRPE, MathVerse, OlympiadBench, QSpatial, VizWiz, MMNIAH, LogicVista
-)
-
-from .image_ccocr import CCOCRDataset
-from .image_shortqa import ImageShortQADataset
-from .text_mcq import CustomTextMCQDataset, TextMCQDataset
-
-from .vcr import VCRDataset
-from .mmlongbench import MMLongBench
-from .dude import DUDE
-from .slidevqa import SlideVQA
-from .vl_rewardbench import VLRewardBench
-
-from .mmbench_video import MMBenchVideo
-from .videomme import VideoMME
-from .mvbench import MVBench, MVBench_MP4
-from .mlvu import MLVU, MLVU_MCQ, MLVU_OpenEnded
-from .tempcompass import TempCompass, TempCompass_Captioning, TempCompass_MCQ, TempCompass_YorN
-from .longvideobench import LongVideoBench
-from .video_concat_dataset import ConcatVideoDataset
-from .mmgenbench import MMGenBench
-from .cgbench import CGBench_MCQ_Grounding_Mini, CGBench_OpenEnded_Mini, CGBench_MCQ_Grounding, CGBench_OpenEnded
-from .worldsense import WorldSense
-
-from .miabench import MIABench
-from .cmmmu import CMMMU
-from .wildvision import WildVision
-from .mmmath import MMMath
-from .dynamath import Dynamath
-from .creation import CreationMMBenchDataset
 from .utils import *
-from .video_dataset_config import *
 from ..smp import *
 
 
@@ -132,31 +96,21 @@ class ConcatDataset(ImageBaseDataset):
 
 # Add new supported dataset class here
 IMAGE_DATASET = [
-    ImageCaptionDataset, ImageYORNDataset, ImageMCQDataset, ImageVQADataset, MathVision,
-    MMMUDataset, OCRBench, MathVista, LLaVABench, MMVet, MTVQADataset, TableVQABench,
-    MMLongBench, VCRDataset, MMDUDataset, DUDE, SlideVQA, MUIRDataset, CCOCRDataset,
-    GMAIMMBenchDataset, MMERealWorld, HRBenchDataset, CRPE, MathVerse, NaturalBenchDataset,
-    MIABench, OlympiadBench, WildVision, MMMath, QSpatial, Dynamath, MMGenBench, VizWiz, MMNIAH,
-    CMMMU, VLRewardBench, WeMath, LogicVista, MMMUProDataset, CreationMMBenchDataset, 
-    ImageShortQADataset
+    ImageMCQDataset, 
+    MMMUDataset, MUIRDataset, 
+    GMAIMMBenchDataset, MMERealWorld, HRBenchDataset, NaturalBenchDataset,
+    WeMath, MMMUProDataset
 ]
 
-VIDEO_DATASET = [
-    MMBenchVideo, VideoMME, MVBench, MVBench_MP4, LongVideoBench,
-    MLVU, MLVU_MCQ, MLVU_OpenEnded,
-    TempCompass, TempCompass_MCQ, TempCompass_Captioning, TempCompass_YorN,
-    CGBench_MCQ_Grounding_Mini, CGBench_OpenEnded_Mini, CGBench_MCQ_Grounding, CGBench_OpenEnded, WorldSense
-]
+VIDEO_DATASET = []
 
-TEXT_DATASET = [
-    TextMCQDataset
-]
+TEXT_DATASET = []
 
 CUSTOM_DATASET = [
-    CustomMCQDataset, CustomVQADataset, CustomTextMCQDataset
+    CustomMCQDataset
 ]
 
-DATASET_COLLECTION = [ConcatDataset, ConcatVideoDataset]
+DATASET_COLLECTION = [ConcatDataset]
 
 DATASET_CLASSES = IMAGE_DATASET + VIDEO_DATASET + TEXT_DATASET + CUSTOM_DATASET + DATASET_COLLECTION
 SUPPORTED_DATASETS = []
@@ -207,9 +161,7 @@ def DATASET_MODALITY(dataset, *, default: str = 'IMAGE') -> str:
 
 def build_dataset(dataset_name, **kwargs):
     for cls in DATASET_CLASSES:
-        if dataset_name in supported_video_datasets:
-            return supported_video_datasets[dataset_name](**kwargs)
-        elif dataset_name in cls.supported_datasets():
+        if dataset_name in cls.supported_datasets():
             return cls(dataset=dataset_name, **kwargs)
 
     warnings.warn(f'Dataset {dataset_name} is not officially supported. ')
@@ -228,12 +180,6 @@ def build_dataset(dataset_name, **kwargs):
         if 'image' in data or 'image_path' in data:
             warnings.warn(f'Will assume unsupported dataset {dataset_name} as a Custom MCQ dataset. ')
             return CustomMCQDataset(dataset=dataset_name, **kwargs)
-        else:
-            warnings.warn(f'Will assume unsupported dataset {dataset_name} as a Custom Text MCQ dataset. ')
-            return CustomTextMCQDataset(dataset=dataset_name, **kwargs)
-    else:
-        warnings.warn(f'Will assume unsupported dataset {dataset_name} as a Custom VQA dataset. ')
-        return CustomVQADataset(dataset=dataset_name, **kwargs)
 
 
 __all__ = [
