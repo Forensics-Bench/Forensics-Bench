@@ -102,7 +102,7 @@ class ImageMCQDataset(ImageBaseDataset):
             'https://huggingface.co/datasets/ccvl/3DSRBench/'
             'resolve/main/3dsrbench_v1_vlmevalkit_circular.tsv'
         ),
-        'ForensicsBench':'./LMUData/ForensicsBench.tsv', #自定义数据集begin
+        'ForensicsBench':'./LMUData/ForensicsBench.tsv', 
     }
 
     DATASET_MD5 = {

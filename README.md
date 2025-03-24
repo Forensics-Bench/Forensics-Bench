@@ -33,7 +33,7 @@ We use [VLMEevalKit](https://github.com/open-compass/VLMEvalKit) as our evaluati
 
 Before running the evaluation scripts, you need to configure the VLMs and correctly set the `model_paths` in `vlmeval/config.py`.
 
-After that, you can use a single script `run.py` to inference and evaluate multiple VLMs and benchmarks at a same time.
+After that, you can use a single script `run.py` to inference and evaluate VLMs on the Forensics-Bench.
 
 ## Step 0. Installation & Setup essential keys
 
