@@ -88,11 +88,19 @@ To infer with API models (GPT-4o, Gemini-Pro, etc.) or use LLM APIs as the **jud
 
 **VLM Configuration**: All VLMs are configured in `vlmeval/config.py`. Few legacy VLMs (like MiniGPT-4, LLaVA-v1-7B) requires additional configuration (configuring the code / model_weight root in the config file). During evaluation, you should use the model name specified in `supported_VLM` in `vlmeval/config.py` to select the VLM. Make sure you can successfully infer with the VLM before starting the evaluation with the following command `vlmutil check {MODEL_NAME}`.
 
-Following VLMs require the configuration step:
-**Code Preparation & Installation**: InstructBLIP ([LAVIS](https://github.com/salesforce/LAVIS)), LLaVA ([LLaVA](https://github.com/haotian-liu/LLaVA)), mPLUG-Owl2 ([mPLUG-Owl2](https://github.com/X-PLUG/mPLUG-Owl/tree/main/mPLUG-Owl2)).
+Following VLMs require the configuration step:  
+**Code Preparation & Installation**: InstructBLIP ([LAVIS](https://github.com/salesforce/LAVIS)), LLaVA & LLaVA-Next & Yi-VL ([LLaVA](https://github.com/haotian-liu/LLaVA)), mPLUG-Owl2 ([mPLUG-Owl2](https://github.com/X-PLUG/mPLUG-Owl/tree/main/mPLUG-Owl2)), DeepSeek-VL ([DeepSeek-VL](https://github.com/deepseek-ai/DeepSeek-VL)).  
 **Manual Weight Preparation**: For InstructBLIP, you also need to modify the config files in `vlmeval/vlm/misc` to configure LLM path and ckpt path.
 
 **Dataset Configuration**: Download the dataset [ForensicsBench.tsv](https://huggingface.co/datasets/Forensics-bench/Forensics-bench) from Hugging Face and place it in the `Forensics-Bench/LMUData` directory.
+
+**Transformers Version Recommendation:**
+
+Note that some VLMs may not be able to run under certain transformer versions, we recommend the following settings to evaluate each VLM:
+
+- **Please use** `transformers==4.33.0` **for**: `Qwen series`, `Monkey series`, `InternLM-XComposer Series`, `mPLUG-Owl2`, `VisualGLM`, `MMAlaya`, `InstructBLIP series`.
+- **Please use** `transformers==4.37.0` **for**: `LLaVA series`, `ShareGPT4V series`, `LLaVA (XTuner)`, `CogVLM Series`, `Yi-VL Series`, `DeepSeek-VL series`, `InternVL series`.
+- **Please use** `transformers==latest` **for**: `LLaVA-Next series`.
 
 ## Step 2. Evaluation
 
