@@ -134,18 +134,6 @@ The evaluation results will be printed as logs, besides. **Result Files** will a
 python summary_scores.py --filename /path/to/your/csv
 ```
 
-The output will be printed in the following format.
-```
-Overall score: 66.7%
-====================
-Aspects breakdown:
-
-forgery semantic: 63.8%
-forgery modality: 69.7%
-forgery task: 41.0%
-forgery type: 63.3%
-forgery model: 72.7%
-```
 
 ## 💐 Acknowledgement
 
