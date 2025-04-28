@@ -360,7 +360,7 @@ internvl_series = {
         InternVLChat, model_path="OpenGVLab/InternVL2-1B", version="V2.0"
     ),
     "InternVL2-2B": partial(
-        InternVLChat, model_path="/OpenGVLab/InternVL2-2B", version="V2.0"
+        InternVLChat, model_path="OpenGVLab/InternVL2-2B", version="V2.0"
     ),
     "InternVL2-4B": partial(
         InternVLChat, model_path="OpenGVLab/InternVL2-4B", version="V2.0"

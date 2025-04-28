@@ -386,15 +386,20 @@ class LLaVA_Next(BaseModel):
             else:
                 content.append({"type": "image"})
                 images.append(Image.open(msg["value"]).convert("RGB"))
-        conversation = [
-            {
-                "role": "user",
-                "content": content,
-            }
-        ]
-        prompt = self.processor.apply_chat_template(
-            conversation, add_generation_prompt=True
-        )
+        # conversation = [
+        #     {
+        #         "role": "user",
+        #         "content": content,
+        #     }
+        # ]
+        # prompt = self.processor.apply_chat_template(
+        #     conversation, add_generation_prompt=True
+        # )
+        for i in range(len(content)):
+            if content[i]['type'] == 'text':
+                prompt=self.apply_prompt_template(content[i]["text"])
+                break
+
         inputs = self.processor(prompt, images, return_tensors="pt").to(
             "cuda", torch.float16
         )
